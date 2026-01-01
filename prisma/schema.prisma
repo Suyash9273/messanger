@@ -3,13 +3,18 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-generator client {
-  provider = "prisma-client-js"
-  url      = env("DATABASE_URL")
-}
 
 datasource db {
   provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }
 
 model User {
@@ -18,6 +23,7 @@ model User {
   password String
   name     String?
   image    String?
+  role     UserRole @default(USER)
 
   sessions Session[]
   messages Message[]
@@ -57,11 +63,16 @@ model Conversation {
   updatedAt     DateTime  @updatedAt
 }
 
+enum ConversationRole {
+  ADMIN
+  MEMBER
+}
+
 model ConversationParticipant {
   id                String  @id @default(cuid())
   conversationId    String
   userId            String
-  role              String  @default("MEMBER")
+  role              ConversationRole @default(MEMBER)
   lastReadMessageId String?
 
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
