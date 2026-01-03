@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 
 export async function GET(
     request: NextRequest,
-    {params}: {params: {conversationId: string}}
+    { params }: { params: Promise<{ conversationId: string }> }
 ) {
     try {
         const session = await getServerSession(authOptions);
@@ -15,7 +15,7 @@ export async function GET(
 
         //fetch message for this specefic convo:
         const messages = await db.message.findMany({
-            where: {conversationId: params.conversationId},
+            where: {conversationId: (await params).conversationId},
             include: {sender: true},
             orderBy: {createdAt: "asc"}
         });
