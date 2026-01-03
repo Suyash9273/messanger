@@ -38,6 +38,10 @@ export async function POST(request: NextRequest) {
             }
         });
 
+        if(existingConversations.length > 0) {
+            return NextResponse.json(existingConversations[0], {status: 200});
+        }
+
         // 2. If no convo exists create a new one
         const newConversation = await db.conversation.create({
             data: {
@@ -50,7 +54,7 @@ export async function POST(request: NextRequest) {
             }
         });
 
-        return NextResponse.json(newConversation, { status: 404 });
+        return NextResponse.json(newConversation, { status: 201 });
 
     } catch (error) {
         console.log("Error in api/conversations:(POST) -> ", error);
