@@ -4,6 +4,7 @@ import UserItem from "./UserItem"
 
 export default function Sidebar() {
     const [users, setUsers] = useState([]);
+    const [activeUserIds, setActiveUserIds] = useState<string[]>([]);// tracking online users
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
