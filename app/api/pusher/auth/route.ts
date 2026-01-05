@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
         console.log("This is body: (pusher/auth): ", body);
 
         const socketId = body.get("socket_id") as string;
-        const channel = body.get("channel") as string;
+        const channel = body.get("channel_name") as string;
 
         //3. User Data for presence
         // This data is sent to other users in the channel (Online Status)...

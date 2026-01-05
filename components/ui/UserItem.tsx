@@ -5,9 +5,10 @@ import { useState } from "react"
 
 interface UserItemProps {
     user: any;
+    isOnline?: boolean;
 }
 
-export default function UserItem({ user }: UserItemProps) {
+export default function UserItem({ user, isOnline }: UserItemProps) {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -42,7 +43,17 @@ export default function UserItem({ user }: UserItemProps) {
             <div
                 className="relative inline-block rounded-full overflow-hidden h-11 w-11 bg-blue-600 flex items-center justify-center text-white font-bold"
             >
-                {user.name?.[0] || user.email[0].toUpperCase()}
+                <div className="h-11 w-11 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
+          {user.name?.[0] || user.email[0].toUpperCase()}
+        </div>
+
+        {/* The Status Dot */}
+        <span 
+          className={`
+            absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white
+            ${isOnline ? 'bg-green-500' : 'bg-gray-400'}
+          `} 
+        />
             </div>
 
             <div className="min-w-0 flex-1">
